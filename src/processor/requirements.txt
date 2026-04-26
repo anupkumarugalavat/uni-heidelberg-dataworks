@@ -1,0 +1,4 @@
+# boto3 is not pre-installed in python:3.12-slim container images.
+# It must be listed here so `pip install -r requirements.txt` includes it.
+# (boto3 is available as a pre-installed layer in Lambda, but not in ECS containers.)
+boto3>=1.34
