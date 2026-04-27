@@ -141,7 +141,7 @@ uni-heidelberg-dataworks/
 │       └── requirements.txt
 └── docs/
     ├── README.md
-    └── Hybrid_Strategy.md
+    └── decouple_strategy.md
 ```
 
 ## Notes
