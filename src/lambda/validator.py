@@ -1,5 +1,5 @@
 """
-validator.py — Lambda function triggered by S3 ObjectCreated events.
+validator.py - Lambda function triggered by S3 ObjectCreated events.
 
 Responsibilities:
   1. Verify the uploaded .zip file has a valid organization-id tag.
@@ -8,13 +8,13 @@ Responsibilities:
   4. Trigger an ECS Fargate task to process validated files.
 
 Environment variables (injected by Terraform via lambda.tf):
-  AUDIT_TABLE     — DynamoDB table name
-  ECS_CLUSTER     — ECS cluster ARN
-  TASK_DEFINITION — ECS task definition ARN
-  SUBNETS         — comma-separated private subnet IDs
-  SECURITY_GROUP  — ECS task security group ID
-  AWS_ACCOUNT_ID  — AWS account ID
-  VALID_ORGS      — comma-separated list of permitted organization IDs
+  AUDIT_TABLE     - DynamoDB table name
+  ECS_CLUSTER     - ECS cluster ARN
+  TASK_DEFINITION - ECS task definition ARN
+  SUBNETS         - comma-separated private subnet IDs
+  SECURITY_GROUP  - ECS task security group ID
+  AWS_ACCOUNT_ID  - AWS account ID
+  VALID_ORGS      - comma-separated list of permitted organization IDs
 """
 import os
 import time
@@ -24,8 +24,8 @@ import boto3
 
 # ---------------------------------------------------------------------------
 # Storage / compute adapters
-# AWS SDK calls isolated here — swap these functions to point at an
-# on-premises backend (MinIO, Nomad, etc.) without touching validation logic.
+# AWS SDK calls isolated here swap these functions to point at an
+# on-premises backend without touching validation logic.
 # ---------------------------------------------------------------------------
 
 def _get_object_tags(bucket: str, key: str) -> dict:
@@ -82,7 +82,7 @@ def _write_audit(table, trace_id: str, org_id: str, bucket: str,
 
 
 # ---------------------------------------------------------------------------
-# Config — resolved once at Lambda cold-start from environment variables.
+# Config resolved once at Lambda cold-start from environment variables.
 # All values are injected by Terraform (lambda.tf); no runtime lookups needed.
 # ---------------------------------------------------------------------------
 
@@ -93,7 +93,7 @@ SUBNETS        = os.environ['SUBNETS'].split(',')
 SECURITY_GROUP = os.environ['SECURITY_GROUP']
 
 # VALID_ORGS is now a plain environment variable set in lambda.tf (var.valid_orgs).
-# Previously this was fetched at runtime from SSM SecureString — that dependency
+# Previously this was fetched at runtime from SSM SecureString that dependency
 # has been removed. Update terraform.tfvars and redeploy to change the list.
 VALID_ORGS = set(os.environ['VALID_ORGS'].split(','))
 

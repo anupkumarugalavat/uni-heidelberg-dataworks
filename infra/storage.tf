@@ -1,4 +1,4 @@
-# S3 ingress bucket — receives .zip data packages from member orgs
+# S3 ingress bucket - receives .zip data packages from member orgs
 resource "aws_s3_bucket" "ingress" {
   bucket = "${var.prefix}-ingress-${data.aws_caller_identity.current.account_id}"
 }
@@ -21,7 +21,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "encrypt" {
   }
 }
 
-# S3 event notification — triggers Lambda only on .zip uploads
+# S3 event notification - triggers Lambda only on .zip uploads
 resource "aws_s3_bucket_notification" "trigger" {
   bucket = aws_s3_bucket.ingress.id
   lambda_function {

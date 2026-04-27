@@ -53,7 +53,7 @@ resource "aws_iam_role_policy_attachment" "lambda_basic" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-# ECS task role — reads from S3, writes audit records
+# ECS task role - reads from S3, writes audit records
 resource "aws_iam_role" "ecs_task_role" {
   name = "${var.prefix}-ecs-task-role"
   assume_role_policy = jsonencode({
@@ -85,7 +85,7 @@ resource "aws_iam_role_policy" "ecs_task_policy" {
   })
 }
 
-# ECS execution role — pulls images from ECR, writes container logs
+# ECS execution role - pulls images from ECR, writes container logs
 resource "aws_iam_role" "ecs_exec_role" {
   name = "${var.prefix}-ecs-exec-role"
   assume_role_policy = jsonencode({

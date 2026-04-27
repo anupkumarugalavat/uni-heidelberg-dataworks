@@ -17,7 +17,7 @@ provider "aws" {
   }
 }
 
-# ECR repository — container registry managed in IaC
+# ECR repository - container registry managed in IaC
 resource "aws_ecr_repository" "processor" {
   name                 = "${var.prefix}-processor"
   image_tag_mutability = "IMMUTABLE"

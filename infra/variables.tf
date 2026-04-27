@@ -13,7 +13,7 @@ variable "container_image" {
   default     = ""
 }
 
-#valid_orgs is injected directly as an environment variable on
+# valid_orgs is injected directly as an environment variable on
 # the Lambda function. No SSM parameter or SecureString involved.
 variable "valid_orgs" {
   description = "Comma-separated list of permitted organization IDs"

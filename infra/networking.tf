@@ -5,7 +5,7 @@ resource "aws_vpc" "main" {
   tags                 = { Name = "${var.prefix}-vpc" }
 }
 
-# Public subnets — NAT Gateway lives here
+# Public subnets - NAT Gateway lives here
 resource "aws_subnet" "public" {
   count             = 2
   vpc_id            = aws_vpc.main.id
@@ -14,7 +14,7 @@ resource "aws_subnet" "public" {
   tags              = { Name = "${var.prefix}-public-${count.index}" }
 }
 
-# Private subnets — ECS Fargate tasks run here, no public ingress
+# Private subnets - ECS Fargate tasks run here, no public ingress
 resource "aws_subnet" "private" {
   count             = 2
   vpc_id            = aws_vpc.main.id
@@ -23,13 +23,13 @@ resource "aws_subnet" "private" {
   tags              = { Name = "${var.prefix}-private-${count.index}" }
 }
 
-# Internet Gateway — required for the NAT Gateway to reach the internet
+# Internet Gateway - required for the NAT Gateway to reach the internet
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
   tags   = { Name = "${var.prefix}-igw" }
 }
 
-# Public route table — routes public subnet traffic to the IGW
+# Public route table - routes public subnet traffic to the IGW
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
   route {
@@ -60,7 +60,7 @@ resource "aws_nat_gateway" "gw" {
   depends_on    = [aws_internet_gateway.igw]
 }
 
-# Private route table — routes all egress from private subnets through NAT
+# Private route table - routes all egress from private subnets through NAT
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.main.id
   route {
@@ -76,7 +76,7 @@ resource "aws_route_table_association" "private" {
   route_table_id = aws_route_table.private.id
 }
 
-# Security group for ECS tasks — no ingress, all egress allowed
+# Security group for ECS tasks no ingress, all egress allowed
 resource "aws_security_group" "ecs_tasks" {
   name        = "${var.prefix}-ecs-tasks-sg"
   description = "Security group for ECS processing workloads"

@@ -1,15 +1,15 @@
 """
-processor.py — runs inside the ECS Fargate container.
+processor.py - runs inside the ECS Fargate container.
 
 Reads a .zip data package from S3, processes it, and writes audit records
 to DynamoDB at each stage of the workflow.
 
 Environment variables:
-  AUDIT_TABLE  — DynamoDB table name        (from ecs.tf task definition)
-  S3_BUCKET    — source bucket              (from Lambda container override)
-  S3_KEY       — object key of the .zip     (from Lambda container override)
-  TRACE_ID     — correlation ID             (from Lambda container override)
-  ORG_ID       — validated organisation ID  (from Lambda container override)
+  AUDIT_TABLE  - DynamoDB table name        (from ecs.tf task definition)
+  S3_BUCKET    - source bucket              (from Lambda container override)
+  S3_KEY       - object key of the .zip     (from Lambda container override)
+  TRACE_ID     - correlation ID             (from Lambda container override)
+  ORG_ID       - validated organisation ID  (from Lambda container override)
 """
 import io
 import os
@@ -20,9 +20,9 @@ import boto3
 
 # ---------------------------------------------------------------------------
 # Storage adapter
-# FIX (hybrid backbone): all storage I/O is isolated in these two functions.
-# To run on-premises against MinIO or another S3-compatible store, only
-# _download_object() needs to change — the processing logic is untouched.
+#  hybrid backbone: all storage I/O is isolated in these two functions.
+# To run on-premises S3-compatible store, only
+# _download_object() needs to change the processing logic is untouched.
 # ---------------------------------------------------------------------------
 
 def _download_object(bucket: str, key: str) -> bytes:
@@ -71,7 +71,7 @@ def _inspect_zip(raw: bytes) -> dict:
     """
     Open the .zip archive and return a summary of its contents.
 
-    FIX: The original code used time.sleep(10) as a processing stub.
+    The original code used time.sleep(10) as a processing stub.
     This now actually reads the zip, listing each member file with its
     name and uncompressed size — satisfying the requirement that the
     processing step 'logs the file name and size'.
